@@ -1,3 +1,1 @@
-const cart = []
-
 createTemplate(paletas)

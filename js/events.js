@@ -19,15 +19,12 @@ const addToCart = (id) => {
 		});
 	}
 }
-
 const updateCartUI = () => {
-	const cartDetailsContainer = document.getElementById('cart-details');
-	const cartTotalElement = document.getElementById('cart-total');
 
+	const cartDetailsContainer = document.getElementById('cart-details');
 	cartDetailsContainer.innerHTML = '';
 
 	const paletteInfo = {};
-
 	let total = 0;
 
 	cart.forEach(item => {
@@ -43,35 +40,30 @@ const updateCartUI = () => {
 		total += item.price;
 	});
 
+	cartTotal = total;
+	calcularTotal();
+
 	for (const title in paletteInfo) {
 		const paletaDetail = document.createElement('p');
 		paletaDetail.textContent = `${paletteInfo[title].count}x ${title} - $${paletteInfo[title].sum.toFixed(2)}`;
 		cartDetailsContainer.appendChild(paletaDetail);
 	}
-
-	cartTotalElement.textContent = total.toFixed(2);
 }
 
-
-
-
-const calcularTotalUSD = () => {
-	const apiUrl = 'https://dolarapi.com/v1/dolares';
-
-	fetch(apiUrl)
+const calcularTotal = () => {
+	const url = 'https://dolarapi.com/v1/dolares';
+	fetch(url)
 		.then((res) => res.json())
-		.then(data => data[1].venta) {
-	    .catch ((error) => {
-	console.error('Error al obtener las tasas de cambio:', error);
-
-})};
-  };
-
-document.addEventListener('DOMContentLoaded', () => {
-	calcularTotalUSD();
-});
-
-
+		.then(data => {
+			const usdTotal = document.getElementById('cart-total-usd')
+			const total = document.getElementById('cart-total')
+			usdTotal.innerText = (cartTotal / data[1].venta).toFixed(2)
+			total.innerText = cartTotal.toFixed(2)
+		})
+		.catch((error) =>
+			console.error('Error al obtener las tasas de cambio:', error))
+};
+document.addEventListener('DOMContentLoaded', () => calcularTotal());
 
 
 
