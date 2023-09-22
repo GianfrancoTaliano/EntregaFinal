@@ -1,4 +1,12 @@
 
+document.addEventListener('DOMContentLoaded', () => {
+	const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+	cart.push(...storedCart); 
+	updateCartUI();
+  });
+  
+
+
 const addToCart = (id) => {
 	const selectedPaleta = paletas.find(paleta => paleta.id === id);
 	if (selectedPaleta) {
